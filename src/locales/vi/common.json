@@ -1,0 +1,37 @@
+{
+  "app": {
+    "name": "Hệ thống HRM"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "loginTitle": "Đăng nhập vào tài khoản",
+    "loginSubtitle": "Nhập thông tin đăng nhập để tiếp tục"
+  },
+  "nav": {
+    "dashboard": "Tổng quan",
+    "employees": "Nhân viên",
+    "departments": "Phòng ban",
+    "payroll": "Bảng lương",
+    "leave": "Nghỉ phép",
+    "users": "Người dùng",
+    "settings": "Cài đặt",
+    "profile": "Trang cá nhân"
+  },
+  "common": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "add": "Thêm",
+    "search": "Tìm kiếm",
+    "loading": "Đang tải...",
+    "noData": "Không có dữ liệu",
+    "confirm": "Xác nhận",
+    "back": "Quay lại",
+    "actions": "Thao tác"
+  }
+}
