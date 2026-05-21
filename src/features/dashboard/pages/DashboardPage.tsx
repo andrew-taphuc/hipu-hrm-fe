@@ -6,6 +6,7 @@ import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined'
 import { useTranslation } from 'react-i18next'
 import type { ReactNode } from 'react'
 
+
 interface StatCard {
   label: string
   value: string | number

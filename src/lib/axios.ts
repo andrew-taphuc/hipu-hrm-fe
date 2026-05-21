@@ -68,11 +68,13 @@ axiosInstance.interceptors.response.use(
     try {
       const refreshToken = localStorage.getItem(appConfig.refreshTokenKey)
       const { data } = await axios.post(
-        `${appConfig.apiBaseUrl}/auth/refresh`,
+        `${appConfig.apiBaseUrl}/auth/refresh-token`,
         { refreshToken },
       )
       const newAccessToken: string = data.data.accessToken
+      const newRefreshToken: string = data.data.refreshToken
       localStorage.setItem(appConfig.tokenKey, newAccessToken)
+      localStorage.setItem(appConfig.refreshTokenKey, newRefreshToken)
       axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`
       processQueue(null, newAccessToken)
       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`

@@ -12,6 +12,7 @@ import {
   ListItemIcon,
 } from '@mui/material'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +20,7 @@ import { useNavigate } from 'react-router'
 import { useAppDispatch } from '@/hooks/useAppDispatch'
 import { useAppSelector } from '@/hooks/useAppSelector'
 import { logout } from '@/features/auth/authSlice'
+import ChangePasswordModal from '@/features/auth/components/ChangePasswordModal'
 import { PATHS } from '@/routes/paths'
 import { DRAWER_WIDTH } from './constants'
 
@@ -28,6 +30,7 @@ export default function Header() {
   const navigate = useNavigate()
   const user = useAppSelector((state) => state.auth.user)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false)
 
   const handleOpen = (e: React.MouseEvent<HTMLElement>) =>
     setAnchorEl(e.currentTarget)
@@ -39,12 +42,13 @@ export default function Header() {
     navigate(PATHS.LOGIN, { replace: true })
   }
 
-  const displayName = user
-    ? `${user.firstName} ${user.lastName}`.trim()
-    : 'User'
-  const initials = user
-    ? `${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase()
-    : 'U'
+  const displayName = user?.fullName ?? 'User'
+  const initials = displayName
+    .split(' ')
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
 
   return (
     <AppBar
@@ -66,7 +70,7 @@ export default function Header() {
         <Tooltip title={displayName}>
           <IconButton onClick={handleOpen} size="small" sx={{ p: 0 }}>
             <Avatar
-              src={user?.avatar}
+              src={user?.avatarUrl ?? undefined}
               sx={{
                 width: 36,
                 height: 36,
@@ -111,6 +115,18 @@ export default function Header() {
             {t('nav.profile')}
           </MenuItem>
 
+          <MenuItem
+            onClick={() => {
+              handleClose()
+              setChangePasswordOpen(true)
+            }}
+          >
+            <ListItemIcon>
+              <LockOutlinedIcon fontSize="small" />
+            </ListItemIcon>
+            {t('auth.changePassword')}
+          </MenuItem>
+
           <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
             <ListItemIcon sx={{ color: 'error.main' }}>
               <LogoutOutlinedIcon fontSize="small" />
@@ -119,6 +135,11 @@ export default function Header() {
           </MenuItem>
         </Menu>
       </Toolbar>
+
+      <ChangePasswordModal
+        open={changePasswordOpen}
+        onClose={() => setChangePasswordOpen(false)}
+      />
     </AppBar>
   )
 }

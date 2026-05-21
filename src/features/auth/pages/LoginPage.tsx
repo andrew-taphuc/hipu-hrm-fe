@@ -9,6 +9,7 @@ import {
   Link,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
 import { useAppDispatch } from '@/hooks/useAppDispatch'
 import { useAppSelector } from '@/hooks/useAppSelector'
 import { login, clearError } from '@/features/auth/authSlice'
@@ -17,6 +18,7 @@ import { PATHS } from '@/routes/paths'
 export default function LoginPage() {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const { isLoading, error } = useAppSelector((state) => state.auth)
 
   const [form, setForm] = useState({ email: '', password: '' })
@@ -26,9 +28,14 @@ export default function LoginPage() {
     if (error) dispatch(clearError())
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    dispatch(login(form))
+    try {
+      await dispatch(login(form)).unwrap()
+      navigate(PATHS.DASHBOARD, { replace: true })
+    } catch {
+      // error already stored in state by the slice
+    }
   }
 
   return (
@@ -74,7 +81,13 @@ export default function LoginPage() {
       />
 
       <Box sx={{ textAlign: 'right', mt: 0.5 }}>
-        <Link href={PATHS.FORGOT_PASSWORD} variant="body2" underline="hover">
+        <Link
+          component="button"
+          type="button"
+          variant="body2"
+          underline="hover"
+          onClick={() => navigate(PATHS.FORGOT_PASSWORD)}
+        >
           {t('auth.forgotPassword')}
         </Link>
       </Box>
