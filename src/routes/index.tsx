@@ -5,6 +5,7 @@ import LoginPage from '@/features/auth/pages/LoginPage'
 import ForgotPasswordPage from '@/features/auth/pages/ForgotPasswordPage'
 import ResetPasswordPage from '@/features/auth/pages/ResetPasswordPage'
 import DashboardPage from '@/features/dashboard/pages/DashboardPage'
+import EmployeesPage from '@/features/employee/pages/EmployeesPage'
 import { useAppSelector } from '@/hooks/useAppSelector'
 import { PATHS } from './paths'
 
@@ -40,6 +41,7 @@ export default function AppRouter() {
         {/* Admin pages — authenticated only */}
         <Route element={<PrivateLayout />}>
           <Route path={PATHS.DASHBOARD} element={<DashboardPage />} />
+          <Route path={PATHS.EMPLOYEES} element={<EmployeesPage />} />
           {/* Add more admin routes here */}
         </Route>
 
